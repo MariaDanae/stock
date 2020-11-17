@@ -19,8 +19,8 @@ def hello():
 #     return f'{prediction}\n'
 
 
-@app.route('/get_stock_val/<ticker>', methods=['GET'])
-def get_stock_value(ticker):
+@app.route('/get_stock_val_with_accuracy/<ticker>', methods=['GET'])
+def get_stock_val_with_accuracy(ticker):
     bl = create_business_logic()
     prediction_and_score = bl.do_predictions_for(ticker)
     last_close_price = get_last_close_price(ticker)
@@ -31,6 +31,13 @@ def get_stock_value(ticker):
               "balanced_accuracy": f'{prediction_and_score.get("balanced_accuracy")}'
               }
     return f'{result}'
+
+@app.route('/get_stock_val/<ticker>', methods=['GET'])
+def get_stock_value(ticker):
+    bl = create_business_logic()
+    prediction_and_score = bl.do_predictions_for(ticker)
+
+    return prediction_and_score.get("prediction")
 
 
 if __name__ == '__main__':
